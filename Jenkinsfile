@@ -7,7 +7,7 @@ pipeline {
         DOCKER_IMAGE = 'cithit/meltoneb'                                                 // <------change this
         IMAGE_TAG = "build-${BUILD_NUMBER}"
         GITHUB_URL = 'https://github.com/meltoneb-glitch/225-lab3-1'                   // <------change this
-        KUBECONFIG = credentials('meltoneb')                                             // <------change this
+        KUBECONFIG = credentials('meltoneb-225')                                             // <------change this
     }
 
     stages {
@@ -43,7 +43,7 @@ pipeline {
                     def kubeConfig = readFile(KUBECONFIG)
                     // Update deployment-dev.yaml to use the new image tag
                     sh "sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-dev.yaml"
-                    sh "kubectl --kubeconfig $KUBECONFIG apply -f deployment-dev.yaml"
+                    sh "kubectl apply -f deployment-dev.yaml"
                 }
             }
         }
